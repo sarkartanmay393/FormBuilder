@@ -12,7 +12,7 @@ export function FormFooter({ onSaveDraft, onPublish }: FormFooterProps) {
       <Button
         variant="outline"
         size="sm"
-        className="text-gray-600 rounded-xl gap-1 font-semibold"
+        className="text-gray-600 rounded-xl gap-1 font-semibold px-[14px] pr-[16px] py-[6px]"
         onClick={onSaveDraft}
       >
         <Save className="w-4 h-4" />
@@ -20,7 +20,7 @@ export function FormFooter({ onSaveDraft, onPublish }: FormFooterProps) {
       </Button>
       <Button
         size="sm"
-        className="bg-green-500 hover:bg-green-600 rounded-xl gap-1 font-semibold"
+        className="bg-green-500 hover:bg-green-600 rounded-xl gap-1 font-semibold px-[14px] pr-[16px] py-[6px]"
         onClick={onPublish}
       >
         <Check className="w-4 h-4" />

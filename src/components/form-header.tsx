@@ -42,7 +42,7 @@ export function FormHeader({ form, setForm,  onPreview }: FormHeaderProps) {
       <Button
         variant="outline"
         size="sm"
-        className="text-gray-600 rounded-xl gap-1 font-semibold"
+        className="text-gray-600 rounded-xl gap-1 font-semibold px-[14px] pl-[16px] py-[6px]"
         onClick={onPreview}
       >
         Preview
