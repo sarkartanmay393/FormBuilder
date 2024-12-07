@@ -9,6 +9,7 @@ export default function EditableLabel({
   placeholder,
   className,
   classNameLabel,
+  mode = 'admin'
 }: any) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -16,8 +17,8 @@ export default function EditableLabel({
     <Input
       value={value || defaultValue}
       onChange={(e) => onChange(e.target.value)}
-      onBlur={() => setIsEditing(false)}
-      onKeyDown={(e) => e.key === "Enter" && setIsEditing(false)}
+      onBlur={() => mode !== 'preview' && setIsEditing(false)}
+      onKeyDown={(e) => e.key === "Enter" && mode !== 'preview' && setIsEditing(false)}
       className={className}
       autoFocus
       placeholder={placeholder}
@@ -25,9 +26,9 @@ export default function EditableLabel({
   ) : (
     <h1
       className={"text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-600 "+classNameLabel}
-      onClick={() => setIsEditing(true)}
+      onClick={() =>  mode !== 'preview' && setIsEditing(true)}
     >
-      {value || defaultValue}
+      {value || mode !== 'preview' && placeholder}
     </h1>
   );
 }

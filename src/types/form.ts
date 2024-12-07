@@ -1,22 +1,21 @@
 export type QuestionType = 'short' | 'long' | 'select' | 'url' | 'date'
 
 export interface Option {
-  id: string
+  id: number
   text: string
 }
 
 export interface Question {
-  id: string
+  id: number
   type: QuestionType
   title: string
   helpText?: string
   options?: Option[]
-  required?: boolean
-  answer?: string | number;
+  answer?: any;
 }
 
 export interface Form {
-  id: string
+  id: number
   title: string
   questions: Question[]
 }
