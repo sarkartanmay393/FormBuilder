@@ -1,4 +1,4 @@
-export type QuestionType = 'short' | 'long' | 'select' | 'number' | 'url' | 'date'
+export type QuestionType = 'short' | 'long' | 'select' | 'url' | 'date'
 
 export interface Option {
   id: string
@@ -12,6 +12,7 @@ export interface Question {
   helpText?: string
   options?: Option[]
   required?: boolean
+  answer?: string | number;
 }
 
 export interface Form {
