@@ -6,8 +6,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { Question } from "@/types/form";
 
-export default function AddQuestionDropdown({ addQuestion }: any) {
+interface AddQuestionDropdownProps {
+  addQuestion: ({ type }: { type: Question["type"] }) => void;
+}
+
+export default function AddQuestionDropdown({
+  addQuestion,
+}: AddQuestionDropdownProps) {
+  const handleAddQuestion = (type: Question["type"]) => {
+    addQuestion({ type });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,23 +38,23 @@ export default function AddQuestionDropdown({ addQuestion }: any) {
               INPUT TYPES
             </h4>
           </div>
-          <DropdownMenuItem onClick={() => addQuestion("short")}>
+          <DropdownMenuItem onClick={() => handleAddQuestion("short")}>
             <Type className="w-4 h-4 mr-2" />
             Short answer
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => addQuestion("long")}>
+          <DropdownMenuItem onClick={() => handleAddQuestion("long")}>
             <AlignLeft className="w-4 h-4 mr-2" />
             Long answer
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => addQuestion("select")}>
+          <DropdownMenuItem onClick={() => handleAddQuestion("select")}>
             <Circle className="w-4 h-4 mr-2" />
             Single select
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => addQuestion("url")}>
+          <DropdownMenuItem onClick={() => handleAddQuestion("url")}>
             <Link2 className="w-4 h-4 mr-2" />
             URL
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => addQuestion("date")}>
+          <DropdownMenuItem onClick={() => handleAddQuestion("date")}>
             <Calendar className="w-4 h-4 mr-2" />
             Date
           </DropdownMenuItem>

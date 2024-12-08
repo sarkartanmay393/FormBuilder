@@ -1,15 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FormHeader } from "./form-header";
 import { FormFooter } from "./form-footer";
 import AddQuestionDropdown from "./add-question-dropdown";
 import { QuestionEditor } from "./question-editor";
 import { useFormContext } from "@/context";
+import type { Question } from "@/types/form";
 
 export function FormBuilder() {
   const { form, addQuestion, changeQsOrder } = useFormContext();
 
-  // dnd
+  const handleAddQuestion = ({ type }: { type: Question["type"] }) => {
+    addQuestion({ type });
+  };
+
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
 
@@ -58,7 +61,7 @@ export function FormBuilder() {
             </Droppable>
           </DragDropContext>
           <div className="flex justify-center mt-6">
-            <AddQuestionDropdown addQuestion={addQuestion} />
+            <AddQuestionDropdown addQuestion={handleAddQuestion} />
           </div>
         </div>
         <FormFooter onPublish={() => null} onSaveDraft={() => null} />

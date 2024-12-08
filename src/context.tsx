@@ -22,7 +22,11 @@ const FormContext = React.createContext<{
     qsId: number;
     newOrder: number;
   }) => void;
-  addOptionToQs: (params: { optionText: string; qsId: number }) => void;
+  addOptionToQs: (params: {
+    optionText: string;
+    qsId: number;
+    optionId: number;
+  }) => void;
   changeOptionToQs: (params: {
     updatedOptionText: string;
     qsId: number;
@@ -79,12 +83,19 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     }));
   };
 
-  const addQuestion = ({ newQuestion }: { newQuestion: Partial<Question> }) => {
+  const addQuestion = ({ type }: { type: Question["type"] }) => {
     setCurrentForm((prevForm) => ({
       ...prevForm,
       questions: [
         ...prevForm.questions,
-        { ...newQuestion, id: prevForm.questions.length } as Question,
+        {
+          id: prevForm.questions.length,
+          type,
+          title: "",
+          helpText: "",
+          required: false,
+          options: type === "select" ? [] : undefined,
+        },
       ],
     }));
   };
@@ -139,7 +150,11 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
       ...prevForm,
       questions: prevForm.questions.map((q) =>
         q.id === qsId
-          ? { ...q, type, options: type === "select" ? [] : q.options }
+          ? {
+              ...q,
+              type,
+              options: type === "select" ? [] : undefined,
+            }
           : q
       ),
     }));
@@ -169,9 +184,11 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
   const addOptionToQs = ({
     qsId,
     optionText,
+    optionId,
   }: {
     qsId: number;
     optionText: string;
+    optionId: number;
   }) => {
     setCurrentForm((prevForm) => ({
       ...prevForm,
@@ -181,7 +198,7 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
               ...q,
               options: [
                 ...(q?.options || []),
-                { id: q.options?.length || 1, text: optionText },
+                { id: optionId, text: optionText },
               ],
             }
           : q
@@ -233,7 +250,6 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useFormContext = () => {
   const value = useContext(FormContext);
   return value;
