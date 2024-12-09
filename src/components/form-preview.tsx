@@ -16,8 +16,8 @@ import { format } from "date-fns";
 import { useFormContext } from "@/app/context";
 import type { Question } from "@/types/form";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getNextFormDataId } from "@/lib/server-actions";
 
 export function FormPreview() {
   const { form, changeQsAnswer, isPreview, loadFormData } = useFormContext();
@@ -148,9 +148,9 @@ export function FormPreview() {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => {
-                  loadFormData({ id: 9999999, title: "", questions: [] });
-                  router.push('/')
+                onClick={async () => {
+                  const nextId = await getNextFormDataId();
+                  router.push('/draft/' + nextId);
                 }}
               >
                 Create another form
@@ -178,7 +178,7 @@ export function FormPreview() {
             ))}
           </div>
           {form?.questions?.length > 0 && (
-            <div className="mt-6 mr-4 flex justify-end">
+            <div className="mt-6 mr-4 flex justify-end mb-14">
               <Button
                 disabled={allDone < 100}
                 onClick={handleSubmit}

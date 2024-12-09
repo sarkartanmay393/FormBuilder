@@ -1,13 +1,9 @@
 "use client";
 
 import {
-  AlignLeft,
   CalendarIcon,
-  Circle,
   GripVertical,
-  Link2,
   Plus,
-  Type,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
