@@ -17,12 +17,26 @@ export function FormFooter() {
     try {
       if (publish) {
         setIsLoading(true);
-        const { error } = await supabase.from("forms").update({ title: form.title, questions: form.questions, published: true }).eq('id', form.id);
+        const { error } = await supabase
+          .from("forms")
+          .update({
+            title: form?.title,
+            questions: form?.questions,
+            published: true,
+          })
+          .eq("id", form?.id);
         if (error) throw error;
-        router.push("/form/" + form.id);
+        router.push("/form/" + form?.id);
       } else {
         setIsDraftLoading(true);
-        const { error } = await supabase.from("forms").update({ title: form.title, questions: form.questions, published: false }).eq('id', form.id);
+        const { error } = await supabase
+          .from("forms")
+          .update({
+            title: form?.title,
+            questions: form?.questions,
+            published: false,
+          })
+          .eq("id", form?.id);
         if (error) throw error;
       }
     } catch (error) {

@@ -4,7 +4,7 @@ import React, { ReactNode, useContext, useState } from "react";
 import { Form, Question } from "@/types/form";
 
 const FormContext = React.createContext<{
-  form: Form;
+  form: Form | null;
   isPreview: boolean;
   setIsPreview: (state: boolean) => void;
   addQuestion: ({ type }: { type: Question["type"] }) => void;
@@ -45,7 +45,7 @@ const FormContext = React.createContext<{
     published: false,
   },
   isPreview: false,
-  setIsPreview: () => { },
+  setIsPreview: () => {},
   changeTitle: function (): void {
     throw new Error("Function not implemented.");
   },
@@ -81,57 +81,64 @@ const FormContext = React.createContext<{
 const FormContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [currentForm, setCurrentForm] = useState<Form>({
-    id: 1,
-    title: "",
-    questions: [],
-    published: false
-  });
+  const [currentForm, setCurrentForm] = useState<Form | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   // const isPreview =
   //   typeof window !== "undefined" &&
   //   window.location.pathname.includes("/preview/");
 
   //   const router = useRouter();
-  
+
   //   const setIsPreview = () => {
   //     const currentUrl = new URL(window.location.href);
   //     const pathSegments = currentUrl.pathname.split("/");
-      
+
   //     router.push('/preview/'+ pathSegments[pathSegments.length-1])
   //   };
 
   const changeTitle = ({ newTitle }: { newTitle: string }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      title: newTitle,
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            title: newTitle,
+          }
+        : prevForm
+    );
   };
 
   const addQuestion = ({ type }: { type: Question["type"] }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: [
-        ...prevForm.questions,
-        {
-          id: prevForm.questions.length,
-          type,
-          title: "",
-          helpText: "",
-          required: false,
-          options: type === "select" ? [] : undefined,
-        },
-      ],
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: [
+              ...prevForm.questions,
+              {
+                id: prevForm.questions.length,
+                type,
+                title: "",
+                helpText: "",
+                required: false,
+                options: type === "select" ? [] : undefined,
+              },
+            ],
+          }
+        : prevForm
+    );
   };
 
   const changeQsTitle = ({ qsId, title }: { qsId: number; title: string }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId ? { ...q, title } : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId ? { ...q, title } : q
+            ),
+          }
+        : null
+    );
   };
 
   const changeQsHelperText = ({
@@ -141,12 +148,16 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     qsId: number;
     helperText: string;
   }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId ? { ...q, helpText: helperText } : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId ? { ...q, helpText: helperText } : q
+            ),
+          }
+        : null
+    );
   };
 
   const changeQsAnswer = ({
@@ -156,12 +167,16 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     qsId: number;
     answer: string;
   }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId ? { ...q, answer } : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId ? { ...q, answer } : q
+            ),
+          }
+        : prevForm
+    );
   };
 
   const changeQsType = ({
@@ -171,18 +186,22 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     qsId: number;
     type: Question["type"];
   }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId
-          ? {
-              ...q,
-              type,
-              options: type === "select" ? [] : undefined,
-            }
-          : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId
+                ? {
+                    ...q,
+                    type,
+                    options: type === "select" ? [] : undefined,
+                  }
+                : q
+            ),
+          }
+        : prevForm
+    );
   };
 
   const changeQsOrder = ({
@@ -193,16 +212,18 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     newOrder: number;
   }) => {
     setCurrentForm((prevForm) => {
-      const questions = [...prevForm.questions];
+      const questions = [...(prevForm?.questions ?? [])];
       const index = questions.findIndex((q) => q.id === qsId);
       if (index !== -1) {
         const [movedQuestion] = questions.splice(index, 1);
         questions.splice(newOrder, 0, movedQuestion);
       }
-      return {
-        ...prevForm,
-        questions,
-      };
+      return prevForm
+        ? {
+            ...prevForm,
+            questions,
+          }
+        : prevForm;
     });
   };
 
@@ -215,20 +236,24 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     optionText: string;
     optionId: number;
   }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId
-          ? {
-              ...q,
-              options: [
-                ...(q?.options || []),
-                { id: optionId, text: optionText },
-              ],
-            }
-          : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId
+                ? {
+                    ...q,
+                    options: [
+                      ...(q?.options || []),
+                      { id: optionId, text: optionText },
+                    ],
+                  }
+                : q
+            ),
+          }
+        : prevForm
+    );
   };
 
   const changeOptionToQs = ({
@@ -240,19 +265,23 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     updatedOptionText: string;
     optionId: number;
   }) => {
-    setCurrentForm((prevForm) => ({
-      ...prevForm,
-      questions: prevForm.questions.map((q) =>
-        q.id === qsId
-          ? {
-              ...q,
-              options: q.options?.map((o) =>
-                o.id === optionId ? { ...o, text: updatedOptionText } : o
-              ),
-            }
-          : q
-      ),
-    }));
+    setCurrentForm((prevForm) =>
+      prevForm
+        ? {
+            ...prevForm,
+            questions: prevForm.questions.map((q) =>
+              q.id === qsId
+                ? {
+                    ...q,
+                    options: q.options?.map((o) =>
+                      o.id === optionId ? { ...o, text: updatedOptionText } : o
+                    ),
+                  }
+                : q
+            ),
+          }
+        : prevForm
+    );
   };
 
   const loadFormData = (formData: any) => {

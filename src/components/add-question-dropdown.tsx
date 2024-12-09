@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Calendar, Link2, Type, AlignLeft, Circle } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

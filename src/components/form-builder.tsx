@@ -17,7 +17,7 @@ export function FormBuilder() {
     if (!result.destination) return;
 
     changeQsOrder({
-      qsId: form.questions[result.source.index].id,
+      qsId: form?.questions[result.source.index].id ?? -1,
       newOrder: result.destination.index,
     });
   };
@@ -32,7 +32,7 @@ export function FormBuilder() {
               ref={provided.innerRef}
               className="space-y-4"
             >
-              {form.questions.map((question, index) => (
+              {form?.questions.map((question, index) => (
                 <Draggable
                   key={question.id}
                   draggableId={question.id.toString()}

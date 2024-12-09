@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, StepBack, X } from "lucide-react";
+import { ArrowUpRight, StepBack } from "lucide-react";
 import EditableLabel from "./editable-label";
 import { useFormContext } from "@/app/context";
 
@@ -14,13 +14,13 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
   } = useFormContext();
 
   const calculateProgress = () => {
-    const totalQuestions = form.questions.length;
+    const totalQuestions = form?.questions.length;
     if (totalQuestions === 0) return 0;
 
-    const answeredQuestions = form.questions.filter(
+    const answeredQuestions = form?.questions.filter(
       (q) => q.answer && q.answer.trim() !== ""
     ).length;
-    return Math.round((answeredQuestions / totalQuestions) * 100);
+    return Math.round(((answeredQuestions || 0) / (totalQuestions || 0)) * 100);
   };
 
   return (
@@ -34,13 +34,18 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
                 onClick={() => setIsPreview(false)}
               />
             )}
-            <p className="font-medium text-[16px] text-ellipsis whitespace-nowrap">Submit form: <span className="font-normal text-sm">{form.title}</span></p>
+            <p className="font-semibold text-[16px] text-ellipsis whitespace-nowrap">
+              Submit form:{" "}
+              <span className="font-medium text-sm">{form?.title}</span>
+            </p>
           </div>
         ) : (
           <EditableLabel
-            value={form.title}
+            value={form?.title}
             placeholder="Untitled form"
             onChange={(val: string) => changeTitle({ newTitle: val })}
+            classNameInput="font-semibold "
+            classNameLabel="text-[16px] font-semibold "
           />
         )}
         <div className="w-1/2 flex flex-col items-end gap-2">
@@ -50,7 +55,7 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
               size="sm"
               className="text-gray-600 rounded-xl gap-1 font-semibold px-[14px] pl-[16px] py-[6px]"
               onClick={() => setIsPreview(true)}
-              disabled={form?.questions.length < 1}
+              disabled={(form?.questions?.length || 0) < 1}
             >
               Preview
               <ArrowUpRight className="w-4 h-4" />
@@ -60,14 +65,15 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
               <h1 className="text-sm text-gray-500 font-medium">
                 Form completeness — {calculateProgress()}%{" "}
               </h1>
-              {(isPreview || isLocalPreview) && form.questions.length > 0 && (
-                <div className="h-1 bg-gray-100 w-full rounded-lg">
-                  <div
-                    className="h-full bg-green-500 transition-all duration-300"
-                    style={{ width: `${calculateProgress()}%` }}
-                  />
-                </div>
-              )}
+              {(isPreview || isLocalPreview) &&
+                (form?.questions?.length ?? 0) > 0 && (
+                  <div className="h-1 bg-gray-100 w-full rounded-lg overflow-hidden">
+                    <div
+                      className="h-full bg-green-500 transition-all duration-300"
+                      style={{ width: `${calculateProgress()}%` }}
+                    />
+                  </div>
+                )}
             </>
           )}
         </div>

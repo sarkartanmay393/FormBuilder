@@ -28,13 +28,13 @@ export function FormPreview() {
   };
 
   const calculateProgress = () => {
-    const totalQuestions = form.questions.length;
+    const totalQuestions = form?.questions.length;
     if (totalQuestions === 0) return 0;
 
-    const answeredQuestions = form.questions.filter(
+    const answeredQuestions = form?.questions.filter(
       (q) => q.answer && q.answer.trim() !== ""
     ).length;
-    return Math.round((answeredQuestions / totalQuestions) * 100);
+    return Math.round(((answeredQuestions ?? 0) / (totalQuestions ?? 0)) * 100);
   };
 
   const renderQuestion = (question: Question) => {
@@ -150,7 +150,7 @@ export function FormPreview() {
                 variant="outline"
                 onClick={async () => {
                   const nextId = await getNextFormDataId();
-                  router.push('/draft/' + nextId);
+                  router.push("/draft/" + nextId);
                 }}
               >
                 Create another form
@@ -161,23 +161,21 @@ export function FormPreview() {
       ) : (
         <>
           <div className="space-y-6 py-4">
-            {form.questions.map((question) => (
+            {form?.questions.map((question) => (
               <div key={question.id} className="space-y-2">
                 <div className="flex flex-col">
-                <label className="block font-medium text-sm">
-                  {question.title || "Untitled question"}
-                </label>
-                {question.helpText && (
-                  <p className="text-xs text-gray-500">
-                    {question.helpText}
-                  </p>
-                )}
+                  <label className="block font-medium text-sm">
+                    {question.title || "Untitled question"}
+                  </label>
+                  {question.helpText && (
+                    <p className="text-xs text-gray-500">{question.helpText}</p>
+                  )}
                 </div>
                 {renderQuestion(question)}
               </div>
             ))}
           </div>
-          {form?.questions?.length > 0 && (
+          {(form?.questions?.length ?? 0) > 0 && (
             <div className="mt-6 mr-4 flex justify-end mb-14">
               <Button
                 disabled={allDone < 100}

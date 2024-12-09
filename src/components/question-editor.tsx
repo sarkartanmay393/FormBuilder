@@ -198,7 +198,7 @@ export function QuestionEditor({
   };
 
   return (
-    <Card className="p-4 my-2 shadow-none rounded-[16px] flex flex-col gap-2 border border-gray-300 transition-all duration-300">
+    <Card className="p-4 my-2 shadow-none rounded-[16px] flex flex-col gap-2 border border-gray-200 transition-all duration-300 group hover:bg-gray-50">
       <div className="flex w-full gap-2">
         <div className="flex-1 space-y-4">
           <div className="flex items-start gap-0.5 flex-col">
@@ -207,12 +207,12 @@ export function QuestionEditor({
               value={question.title}
               onChange={(val: string) => handleTitleChange(val)}
               mode={mode}
-              classNameLabel="w-full font-semibold"
+              classNameLabel="w-full font-semibold group-hover:text-gray-400"
               classNameInput=" font-semibold"
             />
             <EditableLabel
               className="text-xs bg-gray-100 w-full"
-              classNameLabel="text-xs font-normal text-gray-500"
+              classNameLabel="text-xs font-normal text-gray-500 group-hover:text-gray-400"
               inputClassName="bg-gray-100"
               placeholder="Helper Text"
               value={question.helpText}

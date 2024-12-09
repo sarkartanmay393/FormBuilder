@@ -14,23 +14,30 @@ const Page = ({ params: { id } }: any) => {
 
   useEffect(() => {
     if (id) {
-      supabase
-        .from("forms")
-        .select()
-        .eq("id", Number(id))
-        .maybeSingle()
-        .then((data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else if (data.data) {
-            const form = data.data as Form;
+      const fetchData = async () => {
+        try {
+          const { data, error } = await supabase
+            .from("forms")
+            .select()
+            .eq("id", Number(id))
+            .maybeSingle();
+
+          if (data) {
+            const form = data as Form;
             if (form.published) {
-              loadFormData(data.data);
+              loadFormData(data);
             } else {
-              router.replace(`/draft/${id}`)
+              router.replace(`/draft/${id}`);
             }
+          } else {
+            router.replace('/');
           }
-        });
+        } catch (err) {
+          console.error("Unexpected error:", err);
+        }
+      };
+
+      fetchData();
     }
   }, [id]);
 

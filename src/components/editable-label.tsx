@@ -27,7 +27,7 @@ export default function EditableLabel({
     />
   ) : (
     <h1
-      className={"text-sm text-gray-800 cursor-pointer hover:text-gray-600 "+classNameLabel}
+      className={`text-sm text-gray-800 cursor-pointer ${classNameLabel}`}
       onClick={() =>  mode !== 'preview' && setIsEditing(true)}
     >
       {value || mode !== 'preview' && placeholder}
