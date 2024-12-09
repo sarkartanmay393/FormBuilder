@@ -2,6 +2,7 @@
 
 import { useFormContext } from "@/app/context";
 import { FormBuilder } from "@/components/form-builder";
+import { FormPreview } from "@/components/form-preview";
 import { useSupabase } from "@/lib/initSupabase";
 import React, { useEffect } from "react";
 
@@ -26,7 +27,7 @@ const Page = ({ params: { id } }: any) => {
     }
   }, [id]);
 
-  return <FormBuilder />;
+  return <FormPreview />;
 };
 
 export default Page;

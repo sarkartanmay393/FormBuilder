@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -128,32 +128,30 @@ export function FormPreview() {
   };
 
   return (
-    <div className="h-[calc(100vh-108px)] overflow-y-auto my-[54px] py-[8px]">
-      <div className="p-4">
-        <div className="space-y-6">
-          {form.questions.map((question) => (
-            <div key={question.id} className="space-y-2">
-              <label className="block font-medium">
-                {question.title || "Untitled question"}
-              </label>
-              {question.helpText && (
-                <p className="text-sm text-gray-500 mb-2">
-                  {question.helpText}
-                </p>
-              )}
-              {renderQuestion(question)}
-            </div>
-          ))}
-        </div>
-
-        {form.questions.length > 0 && (
-          <div className="mt-6 flex justify-end">
-            <Button className="bg-green-600 hover:bg-green-700 text-white">
-              Submit
-            </Button>
+    <div className="h-[calc(100vh-54px)] overflow-y-auto mt-[54px] mb-[4px] py-[4px] border">
+      <div className="space-y-6 p-4">
+        {form.questions.map((question) => (
+          <div key={question.id} className="space-y-2">
+            <label className="block font-medium">
+              {question.title || "Untitled question"}
+            </label>
+            {question.helpText && (
+              <p className="text-sm text-gray-500 mb-2">{question.helpText}</p>
+            )}
+            {renderQuestion(question)}
           </div>
-        )}
+        ))}
       </div>
+      {form?.questions?.length > 0 && (
+        <div className="mt-6 mr-4 flex justify-end">
+          <Button
+            size="sm"
+            className=" bg-green-600 hover:bg-green-700 text-white rounded-xl border-green-500 h-[32px] px-[14px]"
+          >
+            Submit
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

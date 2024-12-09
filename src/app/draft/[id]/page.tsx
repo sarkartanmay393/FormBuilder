@@ -26,9 +26,5 @@ export default function DraftPage({ params: { id } }: any) {
     }
   }, [id]);
 
-  return (
-    <div className="p-8">
-      <FormBuilder />
-    </div>
-  );
+  return <FormBuilder />;
 }
