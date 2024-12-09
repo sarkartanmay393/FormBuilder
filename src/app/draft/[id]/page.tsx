@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { useFormContext } from "@/app/context";
 import { FormBuilder } from "@/components/form-builder";
 import { useSupabase } from "@/lib/initSupabase";
+import { FormPreview } from "@/components/form-preview";
 
 export default function DraftPage({ params: { id } }: any) {
-  const { loadFormData } = useFormContext();
+  const { loadFormData, isPreview } = useFormContext();
   const supabase = useSupabase();
 
   useEffect(() => {
@@ -37,5 +38,5 @@ export default function DraftPage({ params: { id } }: any) {
     }
   }, [id]);
 
-  return <FormBuilder />;
+  return isPreview ? <FormPreview /> : <FormBuilder />;
 }

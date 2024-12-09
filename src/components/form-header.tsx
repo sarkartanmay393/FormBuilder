@@ -1,12 +1,12 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, StepBack, X } from "lucide-react";
 import EditableLabel from "./editable-label";
 import { useFormContext } from "@/app/context";
 
-export function FormHeader() {
-  const { form, changeTitle, isPreview, setIsPreview } = useFormContext();
+export function FormHeader({ isPreview }: { isPreview?: boolean }) {
+  const { form, changeTitle, isPreview: isLocalPreview, setIsPreview } = useFormContext();
 
   const calculateProgress = () => {
     const totalQuestions = form.questions.length;
@@ -21,8 +21,11 @@ export function FormHeader() {
   return (
     <div className="fixed top-0 w-full max-w-2xl mx-auto bg-white border">
       <div className="h-[54px] flex items-center justify-between p-4 bord er-b">
-        {isPreview ? (
-          <div className="font-medium">Submit form</div>
+        {(isPreview || isLocalPreview) ? (
+          <div className="flex items-center gap-1">
+            {isLocalPreview && <StepBack className="w-4 h-4 cursor-pointer" onClick={() => setIsPreview(false)} />}
+            <div className="font-medium">Submit form</div>
+          </div>
         ) : (
           <EditableLabel
             value={form.title}
@@ -31,12 +34,13 @@ export function FormHeader() {
           />
         )}
         <div className="w-1/2 flex flex-col items-end gap-2">
-          {!isPreview ? (
+          {!((isPreview || isLocalPreview)) ? (
             <Button
               variant="outline"
               size="sm"
               className="text-gray-600 rounded-xl gap-1 font-semibold px-[14px] pl-[16px] py-[6px]"
-              onClick={() => setIsPreview()}
+              onClick={() => setIsPreview(true)}
+              disabled={form?.questions.length < 1}
             >
               {/* {isPreview ? (
               <>
@@ -55,7 +59,7 @@ export function FormHeader() {
               <h1 className="text-sm text-gray-500 font-medium">
                 Form completeness — {calculateProgress()}%{" "}
               </h1>
-              {isPreview && form.questions.length > 0 && (
+              {(isPreview || isLocalPreview) && form.questions.length > 0 && (
                 <div className="h-1 bg-gray-100 w-full">
                   <div
                     className="h-full bg-green-500 transition-all duration-300"

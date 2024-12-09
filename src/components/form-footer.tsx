@@ -18,7 +18,7 @@ export function FormFooter() {
     await supabase.from("forms").upsert(form);
     publish ? setIsLoading(false) : setIsDraftLoading(false);
     if (publish) {
-      router.push("/preview/" + form.id);
+      router.push("/form/" + form.id);
     }
   };
 

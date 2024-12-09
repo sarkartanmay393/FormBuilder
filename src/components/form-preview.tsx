@@ -15,9 +15,13 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useFormContext } from "@/app/context";
 import type { Question } from "@/types/form";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function FormPreview() {
-  const { form, changeQsAnswer } = useFormContext();
+  const { form, changeQsAnswer, isPreview, loadFormData } = useFormContext();
+  const [isSubmited, setSubmitted] = useState(false);
 
   const handleAnswerChange = (qsId: number, answer: string) => {
     changeQsAnswer({ qsId, answer });
@@ -127,30 +131,63 @@ export function FormPreview() {
     }
   };
 
+  const handleSubmit = () => {
+    setSubmitted(true);
+  };
+
+  const router = useRouter();
+  const allDone = calculateProgress();
+
   return (
     <div className="h-[calc(100vh-54px)] overflow-y-auto mt-[54px] mb-[4px] py-[4px] border">
-      <div className="space-y-6 p-4">
-        {form.questions.map((question) => (
-          <div key={question.id} className="space-y-2">
-            <label className="block font-medium">
-              {question.title || "Untitled question"}
-            </label>
-            {question.helpText && (
-              <p className="text-sm text-gray-500 mb-2">{question.helpText}</p>
+      {isSubmited ? (
+        <div className="mt-4">
+          <div className="flex flex-col items-center justify-center h-full gap-2">
+            <h1 className="text-green-600 text-2xl font-bold">Success! 🥳</h1>
+            {!isPreview && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  loadFormData({ id: 9999999, title: "", questions: [] });
+                  router.push('/')
+                }}
+              >
+                Create another form
+              </Button>
             )}
-            {renderQuestion(question)}
           </div>
-        ))}
-      </div>
-      {form?.questions?.length > 0 && (
-        <div className="mt-6 mr-4 flex justify-end">
-          <Button
-            size="sm"
-            className=" bg-green-600 hover:bg-green-700 text-white rounded-xl border-green-500 h-[32px] px-[14px]"
-          >
-            Submit
-          </Button>
         </div>
+      ) : (
+        <>
+          <div className="space-y-6 p-4">
+            {form.questions.map((question) => (
+              <div key={question.id} className="space-y-2">
+                <label className="block font-medium">
+                  {question.title || "Untitled question"}
+                </label>
+                {question.helpText && (
+                  <p className="text-sm text-gray-500 mb-2">
+                    {question.helpText}
+                  </p>
+                )}
+                {renderQuestion(question)}
+              </div>
+            ))}
+          </div>
+          {form?.questions?.length > 0 && (
+            <div className="mt-6 mr-4 flex justify-end">
+              <Button
+                disabled={allDone < 100}
+                onClick={handleSubmit}
+                size="sm"
+                className=" bg-green-600 hover:bg-green-700 text-white rounded-xl border-green-500 h-[32px] px-[14px]"
+              >
+                Submit
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

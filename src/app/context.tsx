@@ -2,12 +2,11 @@
 
 import React, { ReactNode, useContext, useState } from "react";
 import { Form, Question } from "@/types/form";
-import { useRouter } from "next/navigation";
 
 const FormContext = React.createContext<{
   form: Form;
   isPreview: boolean;
-  setIsPreview: () => void;
+  setIsPreview: (state: boolean) => void;
   addQuestion: ({ type }: { type: Question["type"] }) => void;
   changeTitle: ({ newTitle }: { newTitle: string }) => void;
   changeQsTitle: (params: { title: string; qsId: number }) => void;
@@ -45,7 +44,7 @@ const FormContext = React.createContext<{
     questions: [],
   },
   isPreview: false,
-  setIsPreview: () => {},
+  setIsPreview: () => { },
   changeTitle: function (): void {
     throw new Error("Function not implemented.");
   },
@@ -86,18 +85,19 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     title: "",
     questions: [],
   });
-  const isPreview =
-    typeof window !== "undefined" &&
-    window.location.pathname.includes("/preview/");
+  const [isPreview, setIsPreview] = useState(false);
+  // const isPreview =
+  //   typeof window !== "undefined" &&
+  //   window.location.pathname.includes("/preview/");
 
-    const router = useRouter();
+  //   const router = useRouter();
   
-    const setIsPreview = () => {
-      const currentUrl = new URL(window.location.href);
-      const pathSegments = currentUrl.pathname.split("/");
+  //   const setIsPreview = () => {
+  //     const currentUrl = new URL(window.location.href);
+  //     const pathSegments = currentUrl.pathname.split("/");
       
-      router.push('/preview/'+ pathSegments[pathSegments.length-1])
-    };
+  //     router.push('/preview/'+ pathSegments[pathSegments.length-1])
+  //   };
 
   const changeTitle = ({ newTitle }: { newTitle: string }) => {
     setCurrentForm((prevForm) => ({
