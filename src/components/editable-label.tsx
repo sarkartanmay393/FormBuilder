@@ -9,7 +9,7 @@ export default function EditableLabel({
   onChange,
   defaultValue,
   placeholder,
-  className,
+  classNameInput,
   classNameLabel,
   mode = 'admin'
 }: any) {
@@ -21,13 +21,13 @@ export default function EditableLabel({
       onChange={(e) => onChange(e.target.value)}
       onBlur={() => mode !== 'preview' && setIsEditing(false)}
       onKeyDown={(e) => e.key === "Enter" && mode !== 'preview' && setIsEditing(false)}
-      className={className}
+      className={classNameInput}
       autoFocus
       placeholder={placeholder}
     />
   ) : (
     <h1
-      className={"text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-600 "+classNameLabel}
+      className={"text-sm text-gray-800 cursor-pointer hover:text-gray-600 "+classNameLabel}
       onClick={() =>  mode !== 'preview' && setIsEditing(true)}
     >
       {value || mode !== 'preview' && placeholder}

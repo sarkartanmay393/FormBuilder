@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSupabase } from "@/lib/initSupabase";
 import { Check, Loader2Icon, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { useState } from "react";
 
 export function FormFooter() {
@@ -14,11 +15,22 @@ export function FormFooter() {
   const [isDraftLoading, setIsDraftLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const onSaveDraft = async (publish: boolean) => {
-    publish ? setIsLoading(true) : setIsDraftLoading(true);
-    publish ? await supabase.from("forms").upsert({ ...form, published: true }) : await supabase.from("forms").upsert(form);
-    publish ? setIsLoading(false) : setIsDraftLoading(false);
-    if (publish) {
-      router.push("/form/" + form.id);
+    try {
+      if (publish) {
+        setIsLoading(true);
+        const { error } = await supabase.from("forms").update({ title: form.title, questions: form.questions, published: true }).eq('id', form.id);
+        if (error) throw error;
+        router.push("/form/" + form.id);
+      } else {
+        setIsDraftLoading(true);
+        const { error } = await supabase.from("forms").update({ title: form.title, questions: form.questions, published: false }).eq('id', form.id);
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error("Error saving form:", error);
+    } finally {
+      setIsLoading(false);
+      setIsDraftLoading(false);
     }
   };
 

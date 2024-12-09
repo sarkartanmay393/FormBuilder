@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   AlignLeft,
@@ -22,14 +22,12 @@ import type { Question } from "@/types/form";
 import EditableLabel from "./editable-label";
 import { Input } from "./ui/input";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import {
-  Popover,
-  PopoverTrigger,
-} from "@radix-ui/react-popover";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "@/app/context";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 interface QuestionEditorProps {
   question: Question;
@@ -159,7 +157,7 @@ export function QuestionEditor({
                 {i === (question?.options?.length ?? 0) - 1 && (
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="link"
                     size="icon"
                     onClick={handleAddOption}
                   >
@@ -177,7 +175,7 @@ export function QuestionEditor({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100",
+                  "w-full justify-start text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100 text-sm",
                   !question?.answer && "text-muted-foreground"
                 )}
                 disabled
@@ -204,17 +202,17 @@ export function QuestionEditor({
   };
 
   return (
-    <Card className="p-4 my-2 shadow-none rounded-[16px] flex flex-col gap-2 border border-gray-300">
+    <Card className="p-4 my-2 shadow-none rounded-[16px] flex flex-col gap-2 border border-gray-300 transition-all duration-300">
       <div className="flex w-full gap-2">
         <div className="flex-1 space-y-4">
-          <div className="flex items-start gap-2 flex-col">
+          <div className="flex items-start gap-0.5 flex-col">
             <EditableLabel
               placeholder="Write a question"
               value={question.title}
               onChange={(val: string) => handleTitleChange(val)}
               mode={mode}
-              className="bg-gray-50 w-full"
-              inputClassName="bg-gray-50"
+              classNameLabel="w-full font-semibold"
+              classNameInput=" font-semibold"
             />
             <EditableLabel
               className="text-xs bg-gray-100 w-full"
@@ -229,23 +227,53 @@ export function QuestionEditor({
         </div>
         <Select value={question.type} onValueChange={handleTypeChange}>
           <SelectTrigger className="w-fit border-none shadow-none ">
-            <SelectValue />
+            <SelectValue className="w-5 h-5" />
           </SelectTrigger>
-          <SelectContent className="max-w-4">
+          <SelectContent className="min-w-16 max-w-16">
             <SelectItem value="short">
-              <Type className="w-4 h-4" />
+              <Image
+                src={"/short-icon.svg"}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
             </SelectItem>
             <SelectItem value="long">
-              <AlignLeft className="w-4 h-4" />
+              <Image
+                src={"/long-icon.svg"}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
             </SelectItem>
             <SelectItem value="select">
-              <Circle className="w-4 h-4" />
+              <Image
+                src={"/single-select.svg"}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
             </SelectItem>
             <SelectItem value="url">
-              <Link2 className="w-4 h-4" />
+              <Image
+                src={"/url-icon.svg"}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
             </SelectItem>
             <SelectItem value="date">
-              <CalendarIcon className="w-4 h-4" />
+              <Image
+                src={"/calender-icon.svg"}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
             </SelectItem>
           </SelectContent>
         </Select>
