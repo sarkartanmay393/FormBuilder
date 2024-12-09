@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -19,6 +18,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getNextFormDataId } from "@/lib/server-actions";
 import { useSupabase } from "@/lib/initSupabase";
+import Image from "next/image";
 
 export function FormPreview() {
   const { form, changeQsAnswer, isPreview, loadFormData } = useFormContext();
@@ -99,14 +99,18 @@ export function FormPreview() {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal text-xs",
+                  "w-full justify-between text-left font-normal text-xs",
                   !question.answer && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {question.answer
-                  ? format(new Date(question.answer), "PPP")
-                  : "Pick a date"}
+                <p>{question?.answer || "MM-DD-YYYY"}</p>
+                <Image
+                  src={"/calender-icon.svg"}
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="w-4 h-4"
+                />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">

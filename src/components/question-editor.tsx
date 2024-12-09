@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  CalendarIcon,
-  GripVertical,
-  Plus,
-} from "lucide-react";
+import { GripVertical, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -171,13 +167,19 @@ export function QuestionEditor({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100 text-sm",
+                  "w-full justify-between text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100 text-sm",
                   !question?.answer && "text-muted-foreground"
                 )}
                 disabled
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {question?.answer || "MM-DD-YYYY"}
+                <p>{question?.answer || "MM-DD-YYYY"}</p>
+                <Image
+                  src={"/calender-icon.svg"}
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="w-4 h-4"
+                />
               </Button>
             </PopoverTrigger>
           </Popover>
