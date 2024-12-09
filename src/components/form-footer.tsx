@@ -3,15 +3,20 @@
 import { useFormContext } from "@/app/context";
 import { Button } from "@/components/ui/button";
 import { useSupabase } from "@/lib/initSupabase";
-import { Check, Save } from "lucide-react";
+import { Check, Loader2Icon, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function FormFooter() {
   const { form } = useFormContext();
   const supabase = useSupabase();
   const router = useRouter();
+  const [isDraftLoading, setIsDraftLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const onSaveDraft = async (publish: boolean) => {
+    publish ? setIsLoading(true) : setIsDraftLoading(true);
     await supabase.from("forms").upsert(form);
+    publish ? setIsLoading(false) : setIsDraftLoading(false);
     if (publish) {
       router.push("/preview/" + form.id);
     }
@@ -26,16 +31,32 @@ export function FormFooter() {
           className="text-gray-900 rounded-xl gap-1 font-semibold px-[14px] pr-[16px] py-[6px] h-[32px] border-gray-200"
           onClick={() => onSaveDraft(false)}
         >
-          <Save className="w-4 h-4" />
-          Save as Draft
+          {isDraftLoading ? (
+            <>
+              <Loader2Icon className="animate-spin" />
+            </>
+          ) : (
+            <>
+              <Save className="w-4 h-4" />
+              Save as Draft
+            </>
+          )}
         </Button>
         <Button
           size="sm"
           className="bg-green-500 hover:bg-green-600 rounded-xl gap-1 font-semibold border-green-500 px-[14px] pr-[16px] py-[6px] h-[32px]"
           onClick={() => onSaveDraft(true)}
         >
-          <Check className="w-4 h-4" />
-          Publish form
+          {isLoading ? (
+            <>
+              <Loader2Icon className="animate-spin" />
+            </>
+          ) : (
+            <>
+              <Check className="w-4 h-4" />
+              Publish form
+            </>
+          )}
         </Button>
       </>
     </div>

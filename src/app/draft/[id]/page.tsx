@@ -21,6 +21,17 @@ export default function DraftPage({ params: { id } }: any) {
             console.log(data.error);
           } else if (data.data) {
             loadFormData(data.data);
+          } else {
+            supabase
+              .from("forms")
+              .insert({ id: Number(id), title: "", questions: [] })
+              .then((insertData) => {
+                if (insertData.error) {
+                  console.log(insertData.error);
+                } else {
+                  console.log("New form inserted with id:", id);
+                }
+              });
           }
         });
     }
