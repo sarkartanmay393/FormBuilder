@@ -3,6 +3,8 @@ import { Form, Question } from "./types/form";
 
 const FormContext = React.createContext<{
   form: Form;
+  isPreview: boolean;
+  setIsPreview: (preview: boolean) => void;
   addQuestion: ({ newQuestion }: { newQuestion: Partial<Question> }) => void;
   changeTitle: ({ newTitle }: { newTitle: string }) => void;
   changeQsTitle: (params: { title: string; qsId: number }) => void;
@@ -38,6 +40,8 @@ const FormContext = React.createContext<{
     title: "",
     questions: [],
   },
+  isPreview: false,
+  setIsPreview: () => {},
   changeTitle: function (): void {
     throw new Error("Function not implemented.");
   },
@@ -75,6 +79,7 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     title: "",
     questions: [],
   });
+  const [isPreview, setIsPreview] = useState(false);
 
   const changeTitle = ({ newTitle }: { newTitle: string }) => {
     setCurrentForm((prevForm) => ({
@@ -234,6 +239,8 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     <FormContext.Provider
       value={{
         form: currentForm,
+        isPreview,
+        setIsPreview,
         changeOptionToQs,
         changeQsAnswer,
         changeQsOrder,
