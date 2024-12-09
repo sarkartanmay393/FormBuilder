@@ -9,6 +9,7 @@ Welcome to the Peerlist Formbuilder project! This is a modern web application de
 - **Interactive UI Components**: Utilizes Radix UI components for accessible and customizable UI elements.
 - **Date Management**: Efficiently handle dates with the powerful `date-fns` library.
 - **Routing**: Navigate through the application with ease using `react-router-dom`.
+- **Submission Records**: View and manage form submission records with a dedicated page that displays user IPs and submitted form IDs, powered by Supabase for data management. Visit the records page [here](https://form-builder-inky.vercel.app/records).
 
 ## Design and Engineering Choices
  will write in night 🌚

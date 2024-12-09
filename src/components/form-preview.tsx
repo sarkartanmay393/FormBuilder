@@ -11,13 +11,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
+import { cn, fetchUserIp } from "@/lib/utils";
 import { format } from "date-fns";
 import { useFormContext } from "@/app/context";
 import type { Question } from "@/types/form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getNextFormDataId } from "@/lib/server-actions";
+import { useSupabase } from "@/lib/initSupabase";
 
 export function FormPreview() {
   const { form, changeQsAnswer, isPreview, loadFormData } = useFormContext();
@@ -131,7 +132,42 @@ export function FormPreview() {
     }
   };
 
-  const handleSubmit = () => {
+  const supabase = useSupabase();
+
+  const handleSubmit = async () => {
+    const userIp = (await fetchUserIp()) as string;
+    const { data, error } = await supabase
+      .from("submission_record")
+      .select()
+      .eq("userIp", userIp)
+      .single();
+
+    if (data) {
+      let updatedFormIds = data?.formId || [];
+      if (!updatedFormIds.includes(form?.id)) {
+        updatedFormIds.push(form?.id);
+      }
+
+      const { error: udpateE } = await supabase
+        .from("submission_record")
+        .update({ formId: updatedFormIds })
+        .eq("userIp", userIp);
+      if (udpateE) {
+        console.error("Error updating submission record:", udpateE.message);
+      }
+    } else {
+      const { error: upsertError } = await supabase
+        .from("submission_record")
+        .upsert({ userIp, formId: [form?.id] });
+
+      if (upsertError) {
+        console.error(
+          "Error upserting submission record:",
+          upsertError.message
+        );
+      }
+    }
+
     setSubmitted(true);
   };
 
