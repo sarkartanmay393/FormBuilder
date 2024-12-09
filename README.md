@@ -1,6 +1,6 @@
 # Peerlist Form Builder
 
-Welcome to the Peerlist Jobpost project! This is a modern web application designed to streamline job postings and applications using the latest web technologies.
+Welcome to the Peerlist Formbuilder project! This is a modern web application designed to streamline form building and applications using the latest web technologies.
 
 ## Features
 
