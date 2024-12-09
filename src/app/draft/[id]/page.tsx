@@ -57,6 +57,10 @@ export default function DraftPage({ params: { id } }: any) {
 
       fetchData();
     }
+
+    return () => {
+      loadFormData(null);
+    }
   }, [id]);
 
   return isPreview ? <FormPreview /> : <FormBuilder />;

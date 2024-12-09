@@ -39,6 +39,10 @@ const Page = ({ params: { id } }: any) => {
 
       fetchData();
     }
+
+    return () => {
+      loadFormData(null);
+    }
   }, [id]);
 
   return <FormPreview />;
