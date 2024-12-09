@@ -23,7 +23,7 @@ export function FormBuilder() {
   };
 
   return (
-    <div className="h-[calc(100vh-108px)] overflow-y-auto my-[54px] py-[4px] border">
+    <div className="h-[calc(100vh-108px)] overflow-y-auto my-[54px] py-[4px] px-[24px] border">
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="questions">
           {(provided) => (

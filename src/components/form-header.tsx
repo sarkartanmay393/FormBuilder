@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, StepBack, X } from "lucide-react";
@@ -6,7 +6,12 @@ import EditableLabel from "./editable-label";
 import { useFormContext } from "@/app/context";
 
 export function FormHeader({ isPreview }: { isPreview?: boolean }) {
-  const { form, changeTitle, isPreview: isLocalPreview, setIsPreview } = useFormContext();
+  const {
+    form,
+    changeTitle,
+    isPreview: isLocalPreview,
+    setIsPreview,
+  } = useFormContext();
 
   const calculateProgress = () => {
     const totalQuestions = form.questions.length;
@@ -19,12 +24,17 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
   };
 
   return (
-    <div className="fixed top-0 w-full max-w-2xl mx-auto bg-white border">
-      <div className="h-[54px] flex items-center justify-between p-4 bord er-b">
-        {(isPreview || isLocalPreview) ? (
-          <div className="flex items-center gap-1">
-            {isLocalPreview && <StepBack className="w-4 h-4 cursor-pointer" onClick={() => setIsPreview(false)} />}
-            <div className="font-medium">Submit form</div>
+    <div className="fixed top-0 w-full max-w-2xl mx-auto bg-white border px-[24px]">
+      <div className="h-[54px] flex items-center justify-between py-4 gap-1">
+        {isPreview || isLocalPreview ? (
+          <div className="flex items-center gap-1 w-[50%] overflow-clip">
+            {isLocalPreview && (
+              <StepBack
+                className="w-4 h-4 cursor-pointer"
+                onClick={() => setIsPreview(false)}
+              />
+            )}
+            <p className="font-medium text-[16px] text-ellipsis whitespace-nowrap">Submit form: <span className="font-normal text-sm">{form.title}</span></p>
           </div>
         ) : (
           <EditableLabel
@@ -34,7 +44,7 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
           />
         )}
         <div className="w-1/2 flex flex-col items-end gap-2">
-          {!((isPreview || isLocalPreview)) ? (
+          {!(isPreview || isLocalPreview) ? (
             <Button
               variant="outline"
               size="sm"
@@ -42,17 +52,8 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
               onClick={() => setIsPreview(true)}
               disabled={form?.questions.length < 1}
             >
-              {/* {isPreview ? (
-              <>
-                Edit
-                <X className="w-4 h-4" />
-              </>
-            ) : ( */}
-
-              <>
-                Preview
-                <ArrowUpRight className="w-4 h-4" />
-              </>
+              Preview
+              <ArrowUpRight className="w-4 h-4" />
             </Button>
           ) : (
             <>
@@ -60,7 +61,7 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
                 Form completeness — {calculateProgress()}%{" "}
               </h1>
               {(isPreview || isLocalPreview) && form.questions.length > 0 && (
-                <div className="h-1 bg-gray-100 w-full">
+                <div className="h-1 bg-gray-100 w-full rounded-lg">
                   <div
                     className="h-full bg-green-500 transition-all duration-300"
                     style={{ width: `${calculateProgress()}%` }}

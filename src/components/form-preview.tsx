@@ -45,7 +45,7 @@ export function FormPreview() {
             placeholder="Type your answer here"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md"
+            className="border border-gray-300 rounded-md "
           />
         );
 
@@ -55,7 +55,7 @@ export function FormPreview() {
             placeholder="Type your answer here"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md min-h-[100px]"
+            className="border border-gray-300 rounded-md min-h-[100px] "
           />
         );
 
@@ -72,7 +72,7 @@ export function FormPreview() {
                   value={option.text}
                   id={`option-${option.id}`}
                 />
-                <label htmlFor={`option-${option.id}`} className="text-sm">
+                <label htmlFor={`option-${option.id}`} className="text-xs">
                   {option.text}
                 </label>
               </div>
@@ -87,7 +87,7 @@ export function FormPreview() {
             placeholder="https://example.com"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md"
+            className="border border-gray-300 rounded-md text-xs"
           />
         );
 
@@ -98,7 +98,7 @@ export function FormPreview() {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-left font-normal text-xs",
                   !question.answer && "text-muted-foreground"
                 )}
               >
@@ -139,7 +139,7 @@ export function FormPreview() {
   const allDone = calculateProgress();
 
   return (
-    <div className="h-[calc(100vh-54px)] overflow-y-auto mt-[54px] mb-[4px] py-[4px] border">
+    <div className="h-[calc(100vh-54px)] overflow-y-auto mt-[54px] mb-[4px] py-[4px] px-[24px] border">
       {isSubmited ? (
         <div className="mt-4">
           <div className="flex flex-col items-center justify-center h-full gap-2">
@@ -160,17 +160,19 @@ export function FormPreview() {
         </div>
       ) : (
         <>
-          <div className="space-y-6 p-4">
+          <div className="space-y-6 py-4">
             {form.questions.map((question) => (
               <div key={question.id} className="space-y-2">
-                <label className="block font-medium">
+                <div className="flex flex-col">
+                <label className="block font-medium text-sm">
                   {question.title || "Untitled question"}
                 </label>
                 {question.helpText && (
-                  <p className="text-sm text-gray-500 mb-2">
+                  <p className="text-xs text-gray-500">
                     {question.helpText}
                   </p>
                 )}
+                </div>
                 {renderQuestion(question)}
               </div>
             ))}
