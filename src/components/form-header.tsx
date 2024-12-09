@@ -36,7 +36,7 @@ export function FormHeader() {
               variant="outline"
               size="sm"
               className="text-gray-600 rounded-xl gap-1 font-semibold px-[14px] pl-[16px] py-[6px]"
-              onClick={() => setIsPreview(!isPreview)}
+              onClick={() => setIsPreview()}
             >
               {/* {isPreview ? (
               <>

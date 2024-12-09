@@ -158,7 +158,7 @@ export function QuestionEditor({
                   value={op.text}
                   onChange={(e) => handleOptionChange(e.target.value, op.id)}
                 />
-                {i === question.options.length - 1 && (
+                {i === (question?.options?.length ?? 0) - 1 && (
                   <Button
                     type="button"
                     variant="outline"
