@@ -42,6 +42,7 @@ const FormContext = React.createContext<{
     id: 1,
     title: "",
     questions: [],
+    published: false,
   },
   isPreview: false,
   setIsPreview: () => { },
@@ -84,6 +85,7 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     id: 1,
     title: "",
     questions: [],
+    published: false
   });
   const [isPreview, setIsPreview] = useState(false);
   // const isPreview =

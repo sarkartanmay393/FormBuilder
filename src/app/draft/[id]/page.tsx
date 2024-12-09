@@ -25,7 +25,6 @@ export default function DraftPage({ params: { id } }: any) {
             console.log(data.error);
           } else if (data.data) {
             const draft = data.data as Form;
-            console.log(draft)
             if (draft.published) {
               router.replace(`/form/${id}`);
             } else {

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { useSupabase } from "@/lib/initSupabase";
 import { Check, Loader2Icon, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { title } from "process";
 import { useState } from "react";
 
 export function FormFooter() {
