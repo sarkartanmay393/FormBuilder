@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AlignLeft,
   CalendarIcon,
@@ -28,7 +30,7 @@ import {
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
-import { useFormContext } from "@/context";
+import { useFormContext } from "@/app/context";
 import { useEffect, useRef } from "react";
 
 interface QuestionEditorProps {

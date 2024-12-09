@@ -1,8 +1,9 @@
-// FormHeader.tsx
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, X } from "lucide-react";
 import EditableLabel from "./editable-label";
-import { useFormContext } from "@/context";
+import { useFormContext } from "@/app/context";
 
 export function FormHeader() {
   const { form, changeTitle, isPreview, setIsPreview } = useFormContext();
@@ -18,8 +19,8 @@ export function FormHeader() {
   };
 
   return (
-    <div className="fixed top-0 w-full max-w-2xl mx-auto">
-      <div className="h-[54px] flex items-center justify-between p-4 border-b bg-white">
+    <div className="fixed top-0 w-full max-w-2xl mx-auto bg-white border">
+      <div className="h-[54px] flex items-center justify-between p-4 bord er-b">
         {isPreview ? (
           <div className="font-medium">Submit form</div>
         ) : (

@@ -1,9 +1,11 @@
+'use client'
+
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FormHeader } from "./form-header";
 import { FormFooter } from "./form-footer";
 import AddQuestionDropdown from "./add-question-dropdown";
 import { QuestionEditor } from "./question-editor";
-import { useFormContext } from "@/context";
+import { useFormContext } from "@/app/context";
 import type { Question } from "@/types/form";
 import { FormPreview } from "./form-preview";
 
@@ -30,7 +32,7 @@ export function FormBuilder() {
         {isPreview ? (
           <FormPreview />
         ) : (
-          <div className="h-[calc(100vh-108px)] overflow-y-auto my-[54px] py-[8px]">
+          <div className="h-[calc(100vh-108px)] overflow-y-auto my-4 py-[8px] ">
             <DragDropContext onDragEnd={handleDragEnd}>
               <Droppable droppableId="questions">
                 {(provided) => (

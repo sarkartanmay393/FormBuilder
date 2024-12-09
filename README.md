@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# Peerlist Form Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Peerlist Jobpost project! This is a modern web application designed to streamline job postings and applications using the latest web technologies.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Drag and Drop**: Seamlessly manage job postings with an intuitive drag-and-drop interface.
+- **Responsive Design**: Built with Tailwind CSS for a fully responsive and mobile-friendly experience.
+- **Interactive UI Components**: Utilizes Radix UI components for accessible and customizable UI elements.
+- **Date Management**: Efficiently handle dates with the powerful `date-fns` library.
+- **Routing**: Navigate through the application with ease using `react-router-dom`.
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+Ensure you have the following installed:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Node.js (v14 or later)
+- npm (v6 or later)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/peerlist-jobpost.git
+   cd peerlist-jobpost
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+To start the development server, run:
+   ```bash
+   npm run dev
+   ```
+
+This will launch the application in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### Build
+
+To create a production build, use:
+   ```bash
+   npm run build
+   ```
+
+This will generate optimized static files in the `dist` directory.
+
+### Preview
+
+To preview the production build locally, run:
+   ```bash
+   npm run preview
+   ```
+
+## Linting
+
+Ensure code quality by running the linter:
+   ```bash
+   npm run lint
+   ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Thanks to the contributors of the open-source libraries used in this project.
+
+Feel free to contribute to the project by opening issues or submitting pull requests. Happy coding!
+

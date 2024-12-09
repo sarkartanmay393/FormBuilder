@@ -26,3 +26,7 @@ export async function getForm(id: string) {
   return forms.find(f => f.id === id) || drafts.find(d => d.id === id)
 }
 
+
+export const loadFormDataFromDraft = (id: number, supabase: any) => {
+  return supabase.from('forms').select().eq('id', '2').maybeSingle();
+}

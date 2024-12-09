@@ -1,11 +1,14 @@
+"use client";
+
 import React, { ReactNode, useContext, useState } from "react";
-import { Form, Question } from "./types/form";
+import { Form, Question } from "@/types/form";
+import { useRouter } from "next/navigation";
 
 const FormContext = React.createContext<{
   form: Form;
   isPreview: boolean;
-  setIsPreview: (preview: boolean) => void;
-  addQuestion: ({ newQuestion }: { newQuestion: Partial<Question> }) => void;
+  setIsPreview: () => void;
+  addQuestion: ({ type }: { type: Question["type"] }) => void;
   changeTitle: ({ newTitle }: { newTitle: string }) => void;
   changeQsTitle: (params: { title: string; qsId: number }) => void;
   changeQsHelperText: (params: { helperText: string; qsId: number }) => void;
@@ -34,6 +37,7 @@ const FormContext = React.createContext<{
     qsId: number;
     optionId: number;
   }) => void;
+  loadFormData: (formData: any) => void;
 }>({
   form: {
     id: 1,
@@ -69,6 +73,9 @@ const FormContext = React.createContext<{
   changeOptionToQs: function (): void {
     throw new Error("Function not implemented.");
   },
+  loadFormData: function (): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const FormContextProvider: React.FC<{ children: ReactNode }> = ({
@@ -79,7 +86,18 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     title: "",
     questions: [],
   });
-  const [isPreview, setIsPreview] = useState(false);
+  const isPreview =
+    typeof window !== "undefined" &&
+    window.location.pathname.includes("/preview/");
+
+    const router = useRouter();
+  
+    const setIsPreview = () => {
+      const currentUrl = new URL(window.location.href);
+      const pathSegments = currentUrl.pathname.split("/");
+      
+      router.push('/preview/'+ pathSegments[pathSegments.length-1])
+    };
 
   const changeTitle = ({ newTitle }: { newTitle: string }) => {
     setCurrentForm((prevForm) => ({
@@ -235,6 +253,10 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
     }));
   };
 
+  const loadFormData = (formData: any) => {
+    setCurrentForm(formData as Form);
+  };
+
   return (
     <FormContext.Provider
       value={{
@@ -250,6 +272,7 @@ const FormContextProvider: React.FC<{ children: ReactNode }> = ({
         changeQsHelperText,
         changeQsTitle,
         addOptionToQs,
+        loadFormData,
       }}
     >
       {children}

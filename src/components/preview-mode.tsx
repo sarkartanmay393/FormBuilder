@@ -1,8 +1,10 @@
+'use client'
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { QuestionEditor } from "./question-editor";
-import { useFormContext } from "@/context";
+import { useFormContext } from "@/app/context";
 
 export function PreviewMode() {
   const [completeness, setCompleteness] = useState(0);
