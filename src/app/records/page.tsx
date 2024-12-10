@@ -19,10 +19,12 @@ type SR = { id: string; userIp: string; formId: string[] };
 
 const RecordPage = () => {
   const [submissionRecords, setSubmissionRecords] = useState<SR[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchSubmissionRecord().then((data: SR[]) => {
       setSubmissionRecords(data);
+      setIsLoading(false);
     });
   }, []);
 
@@ -50,16 +52,27 @@ const RecordPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {submissionRecords.map((record) => (
-            <TableRow key={record.id}>
-              <TableCell className="font-medium">{record.userIp}</TableCell>
-              <TableCell>
-                {record.formId?.map((id) => (
-                  <><Link href={`/form/${id}`}>{id}</Link>,{" "}</>
-                ))}
+          {isLoading ? (
+            <TableRow>
+              <TableCell colSpan={2} className="text-center">
+                Loading...
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            submissionRecords.map((record) => (
+              <TableRow key={record.id}>
+                <TableCell className="font-medium">{record.userIp}</TableCell>
+                <TableCell>
+                  {record.formId?.map((id, i) => (
+                    <>
+                      <Link href={`/form/${id}`}>{id}</Link>
+                      {i + 1 !== record?.formId?.length && `, `}
+                    </>
+                  ))}
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>

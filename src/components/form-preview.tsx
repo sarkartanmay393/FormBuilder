@@ -72,6 +72,7 @@ export function FormPreview() {
                 <RadioGroupItem
                   value={option.text}
                   id={`option-${option.id}`}
+                  className=" "
                 />
                 <label htmlFor={`option-${option.id}`} className="text-xs">
                   {option.text}
@@ -221,7 +222,7 @@ export function FormPreview() {
                 disabled={allDone < 100}
                 onClick={handleSubmit}
                 size="sm"
-                className=" bg-green-600 hover:bg-green-700 text-white rounded-xl border-green-500 h-[32px] px-[14px]"
+                className="bg-[#00AA45] border-[1px] border-[#1E874B] hover:bg-green-600 text-white text-sm font-semibold rounded-xl h-[32px] w-[80px] px-[14px]"
               >
                 Submit
               </Button>

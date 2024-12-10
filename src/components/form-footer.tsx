@@ -4,6 +4,7 @@ import { useFormContext } from "@/app/context";
 import { Button } from "@/components/ui/button";
 import { useSupabase } from "@/lib/initSupabase";
 import { Check, Loader2Icon, Save } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -52,7 +53,7 @@ export function FormFooter() {
       <Button
         variant="outline"
         size="sm"
-        className="text-gray-900 rounded-xl gap-1 font-semibold px-[14px] pr-[16px] py-[6px] h-[32px] border-gray-200"
+        className="text-gray-900 flex text-sm items-center w-[141px] h-[32px] rounded-xl gap-1 font-semibold px-[14px] pr-[16px] py-[6px] border-[#E1E4E8]"
         onClick={() => onSaveDraft(false)}
       >
         {isDraftLoading ? (
@@ -61,14 +62,20 @@ export function FormFooter() {
           </>
         ) : (
           <>
-            <Save className="w-4 h-4" />
+            <Image
+              src={"/calender-icon.svg"}
+              alt=""
+              width={16}
+              height={16}
+              className="w-4 h-4"
+            />
             Save as Draft
           </>
         )}
       </Button>
       <Button
         size="sm"
-        className="bg-green-500 hover:bg-green-600 rounded-xl gap-1 font-semibold border-green-500 px-[14px] pr-[16px] py-[6px] h-[32px]"
+        className="bg-[#00AA45] border-[1px] font-semibold hover:bg-green-600 rounded-xl gap-1 text-sm border-[#1E874B] w-[136px] px-[14px] pr-[16px] py-[6px] h-[32px]"
         onClick={() => onSaveDraft(true)}
       >
         {isLoading ? (
