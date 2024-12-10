@@ -167,12 +167,22 @@ export function QuestionEditor({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-between text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100 text-sm",
+                  "w-full justify-between text-left font-normal border border-gray-300 rounded-md cursor-not-allowed bg-gray-100 text-sm px-2",
                   !question?.answer && "text-muted-foreground"
                 )}
                 disabled
               >
-                <p>{question?.answer || "MM-DD-YYYY"}</p>
+                <p>
+                  {question?.answer
+                    ? new Date(question?.answer)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")
+                    : "MM-DD-YYYY"}
+                </p>
                 <Image
                   src={"/calender-icon.svg"}
                   alt=""

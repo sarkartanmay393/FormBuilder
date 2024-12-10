@@ -36,7 +36,7 @@ export function FormHeader({ isPreview }: { isPreview?: boolean }) {
             )}
             <p className="font-semibold text-[16px] text-ellipsis whitespace-nowrap">
               Submit form:{" "}
-              <span className="font-medium text-sm">{form?.title}</span>
+              <span className="font-semibold text-sm">{form?.title || "Untitled form"}</span>
             </p>
           </div>
         ) : (

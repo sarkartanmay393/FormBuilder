@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn, fetchUserIp } from "@/lib/utils";
-import { format } from "date-fns";
 import { useFormContext } from "@/app/context";
 import type { Question } from "@/types/form";
 import { useState } from "react";
@@ -46,7 +45,7 @@ export function FormPreview() {
             placeholder="Type your answer here"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md "
+            className="border border-gray-300 rounded-md text-sm"
           />
         );
 
@@ -56,7 +55,7 @@ export function FormPreview() {
             placeholder="Type your answer here"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md min-h-[100px] "
+            className="border border-gray-300 rounded-md min-h-[100px] text-sm"
           />
         );
 
@@ -74,7 +73,7 @@ export function FormPreview() {
                   id={`option-${option.id}`}
                   className=" "
                 />
-                <label htmlFor={`option-${option.id}`} className="text-xs">
+                <label htmlFor={`option-${option.id}`} className="text-sm">
                   {option.text}
                 </label>
               </div>
@@ -89,7 +88,7 @@ export function FormPreview() {
             placeholder="https://example.com"
             value={question.answer || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="border border-gray-300 rounded-md text-xs"
+            className="border border-gray-300 rounded-md text-sm"
           />
         );
 
@@ -100,11 +99,21 @@ export function FormPreview() {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-between text-left font-normal text-xs",
+                  "w-full justify-between text-left font-normal text-sm px-2",
                   !question.answer && "text-muted-foreground"
                 )}
               >
-                <p>{question?.answer || "MM-DD-YYYY"}</p>
+                <p>
+                  {question?.answer
+                    ? new Date(question?.answer)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")
+                    : "MM-DD-YYYY"}
+                </p>
                 <Image
                   src={"/calender-icon.svg"}
                   alt=""
@@ -205,11 +214,11 @@ export function FormPreview() {
             {form?.questions.map((question) => (
               <div key={question.id} className="space-y-2">
                 <div className="flex flex-col">
-                  <label className="block font-medium text-sm">
+                  <label className="block font-semibold text-sm">
                     {question.title || "Untitled question"}
                   </label>
                   {question.helpText && (
-                    <p className="text-xs text-gray-500">{question.helpText}</p>
+                    <p className="text-xs font-normal text-gray-500">{question.helpText}</p>
                   )}
                 </div>
                 {renderQuestion(question)}
